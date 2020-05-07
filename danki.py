@@ -9,6 +9,21 @@
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
+counter = 0
+word_arr = []
+new_arr = []
+
+def read_text_file():
+    f = open("words.txt","r",encoding="utf-8")
+
+    fl = f.readlines()
+    for x in fl:
+        word_arr.append(x)
+
+read_text_file()
+
+
+
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -59,11 +74,17 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
+        
+        self.easy_button.clicked.connect(self.show_easy)
+        self.hard_button.clicked.connect(self.show_hard)
+
+        
+
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.easy_button.setText(_translate("MainWindow", "Easy"))
-        self.hard_button.setText(_translate("MainWindow", "Hard"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "DANKi"))
+        self.easy_button.setText(_translate("MainWindow", "Next"))
+        self.hard_button.setText(_translate("MainWindow", "Previous"))
         self.menuFile.setTitle(_translate("MainWindow", "File"))
         self.menuEdit.setTitle(_translate("MainWindow", "Edit"))
         self.actionNew.setText(_translate("MainWindow", "New"))
@@ -78,6 +99,28 @@ class Ui_MainWindow(object):
         self.actionOpen.setText(_translate("MainWindow", "Open"))
         self.actionOpen.setStatusTip(_translate("MainWindow", "Opens a new file"))
         self.actionOpen.setShortcut(_translate("MainWindow", "Ctrl+O"))
+
+
+    def show_easy(self,text):
+        try:
+            self.card_label.setText(word_arr[0])
+            new_arr.append(word_arr[0])
+            word_arr.remove(word_arr[0])
+
+        except (IndexError):
+            pass
+
+
+    def show_hard(self,text):
+        try:
+            self.card_label.setText(new_arr[0])
+            word_arr.append(new_arr[0])
+            new_arr.remove(new_arr[0])
+
+        except (IndexError):
+            pass
+
+
 
 
 if __name__ == "__main__":
